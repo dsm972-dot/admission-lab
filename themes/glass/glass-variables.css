@@ -1,0 +1,96 @@
+/* AI Nexus Glass Theme - CSS Variables */
+/* Light mode | Dark mode (default) */
+
+:root {
+  /* ========== COLORS ========= */
+  
+  /* Backgrounds */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --surface-glass: rgba(255, 255, 255, 0.08);
+  --surface-glass-hover: rgba(255, 255, 255, 0.12);
+  
+  /* Light mode backgrounds */
+  --bg-light-primary: #f8fafc;
+  --bg-light-secondary: #f1f5f9;
+  --surface-glass-light: rgba(255, 255, 255, 0.7);
+  --surface-glass-hover-light: rgba(255, 255, 255, 0.85);
+
+  /* Brand colors */
+  --brand-primary: #6366f1;
+  --brand-primary-light: #818cf8;
+  --brand-primary-dark: #4f46e5;
+  
+  /* Accent colors */
+  --accent-success: #22c55e;
+  --accent-warning: #eab308;
+  --accent-error: #ef4444;
+  --accent-info: #06b6d4;
+
+  /* Text colors */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  
+  /* Light mode text */
+  --text-light-primary: #0f172a;
+  --text-light-secondary: #64748b;
+
+  /* Borders */
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-focus: rgba(99, 102, 241, 0.5);
+
+  /* ========== SPACING ========= */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+
+  /* ========== BORDER RADII ========= */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-xxl: 1.5rem;
+
+  /* ========== SHADOWS ========= */
+  --shadow-glass-medium: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+  --shadow-glass-large: 0 16px 48px 0 rgba(0, 0, 0, 0.2);
+
+  /* ========== TRANSITIONS ========= */
+  --transition-default: all 0.2s ease;
+  --transition-fast: all 0.15s ease-out;
+  --transition-smooth: all 0.3s ease-in-out;
+
+  /* ========== GLASSMORPHISM ========= */
+  --glass-backdrop-filter: blur(12px) saturate(180%) brightness(95%);
+  --glass-base-border: rgba(255, 255, 255, 0.1) 1px solid;
+  --surface-glass-base: rgba(30, 30, 46, 0.9);
+  --surface-glass-hover: rgba(50, 50, 80, 0.95);
+
+  /* Light mode glassmorphism */
+  --glass-light-backdrop-filter: blur(16px) saturate(200%) brightness(98%);
+  --glass-light-base-border: rgba(0, 0, 0, 0.15) 1px solid;
+  --surface-glass-light-base: rgba(255, 255, 255, 0.85);
+  --surface-glass-hover-light: rgba(255, 255, 255, 0.95);
+
+  /* ========== STATES ========= */
+  /* Unavailable state */
+  --surface-unavailable: #1f1f2a;
+  --text-unavailable-primary: #718096;
+  --text-unavailable-secondary: #4b5563;
+  
+  /* Unknown state */
+  --surface-unknown: #0f0f16;
+  --text-unknown-primary: #718096;
+  --text-unknown-secondary: #52525b;
+
+  /* ========== THEME SWITCHER ========= */
+  /* Apply light mode when data-bs-scheme="light" */
+  [data-bs-scheme="light"] {
+    --bg-primary: var(--bg-light-primary);
+    --bg-secondary: var(--bg-light-secondary);
+    --text-primary: var(--text-light-primary);
+    --text-secondary: var(--text-light-secondary);
+  }

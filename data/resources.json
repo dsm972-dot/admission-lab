@@ -1,0 +1,134 @@
+[
+ {
+  "url": "/local/community/energy-flow-card-plus/energy-flow-card-plus.js?v=638230244023",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/mini-graph-card/mini-graph-card-bundle.js?v=1512800620130",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/hass-shutter-card/hass-shutter-card.js?v=269011342140",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/lovelace-mushroom/mushroom.js?v=444350375523",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/light-entity-card/light-entity-card.js?v=168744428641",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/lovelace-auto-entities/auto-entities.js?v=1677445841161",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/llmvision-card/llmvision-card.js?v=926994990172",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/vertical-stack-in-card/vertical-stack-in-card.js?v=142051833114",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/swipe-glance-card/swipe-glance-card.js?v=23666403303",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/PlantPictureCard/PlantPictureCard.js?v=271886611014",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/alarmo-card/alarmo-card.js?v=391372854169",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/lovelace-xiaomi-vacuum-map-card/xiaomi-vacuum-map-card.js?v=193372044241",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/mushroom-strategy/mushroom-strategy.js?v=619284862320",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/hassio-trash-card/trashcard.js?v=678764124247",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/Bubble-Card/bubble-card.js?v=680112919343",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/lovelace-navbar-card/navbar-card.js?v=871106499180",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/check-button-card/check-button-card.js?v=164022050130",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/button-card/button-card.js?v=146194325701",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/slider-button-card/slider-button-card.js?v=4987940331130",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/stack-in-card/stack-in-card.js?v=248954055020",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/apexcharts-card/apexcharts-card.js?v=331701152223",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/lovelace-state-switch/state-switch.js?v=158756598196",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/decluttering-card/decluttering-card.js?v=188686483100",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/weather-chart-card/weather-chart-card.js?v=6655018292411",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/calendar-card-pro/calendar-card-pro.js?v=939311749501",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/lovelace-xiaomi-vacuum-card/xiaomi-vacuum-card.js?v=180229356450",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/advanced-camera-card/advanced-camera-card.js?v=394082552810",
+  "type": "module"
+ },
+ {
+  "url": "/local/navimower-map-card.js",
+  "type": "module"
+ },
+ {
+  "url": "/local/yamp/yet-another-media-player.js?v=2026.8.1",
+  "type": "module"
+ },
+ {
+  "url": "/local/aurora/aurora-view.v11.js",
+  "type": "module"
+ },
+ {
+  "url": "/local/nexus-dashboard.js",
+  "type": "module"
+ },
+ {
+  "url": "/local/nexus-minimax-card.js",
+  "type": "module"
+ },
+ {
+  "url": "/local/community/scheduler-card/scheduler-card.js",
+  "type": "module"
+ }
+]

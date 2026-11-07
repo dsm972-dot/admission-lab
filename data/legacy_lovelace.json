@@ -1,0 +1,37 @@
+{
+  "title": "legacy",
+  "views": [
+    {
+      "type": "custom:yet-another-media-player",
+      "entities": [
+        {
+          "entity_id": "media_player.shield_4",
+          "name": "Shield"
+        },
+        {
+          "entity_id": "media_player.sound_bar_lg",
+          "name": "Sound Bar"
+        },
+        {
+          "entity_id": "media_player.salle_a_manger_2",
+          "name": "Salle à manger"
+        },
+        {
+          "entity_id": "media_player.bureau_3",
+          "name": "Bureau"
+        },
+        {
+          "entity_id": "media_player.home_salle_de_bain_3",
+          "name": "Salle de bain"
+        }
+      ],
+      "prefer_ma_metadata": true,
+      "match_theme": true,
+      "control_layout": "modern",
+      "adaptive_controls": true,
+      "extend_artwork": true,
+      "collapse_on_idle": true,
+      "template": "large_modern"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "views": [
+    {
+      "type": "custom:navimower-map-card",
+      "entity": "lawn_mower.navimow_i206_awd",
+      "auto_entities": true,
+      "show_status": true,
+      "show_zone": true,
+      "show_battery": true,
+      "show_zone_labels": true,
+      "show_map_legend": true,
+      "show_session_legend": true,
+      "enable_zoom": true
+    }
+  ]
+}

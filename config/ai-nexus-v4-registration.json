@@ -1,0 +1,8 @@
+{
+  "url_path": "ai-nexus-v4",
+  "title": "AI Nexus Home V4",
+  "icon": "mdi:home-assistant",
+  "mode": "storage",
+  "require_admin": true,
+  "show_in_sidebar": true
+}
