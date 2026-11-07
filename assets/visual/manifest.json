@@ -1,0 +1,96 @@
+{
+  "illustrative_only": true,
+  "note": "Visuels générés pour cette copie : la référence photographique d’origine n’était pas dans le dossier. Ils illustrent, ils ne décrivent pas les pièces.",
+  "assets": [
+    {
+      "file": "bureau.webp",
+      "sha256": "d6fee56bdd10d069b60a4f7dff6ccdaa3799a820473dd98391f4faf4ec7fff24",
+      "size": [
+        640,
+        220
+      ],
+      "illustrative": true
+    },
+    {
+      "file": "cuisine.webp",
+      "sha256": "28463bd8147191a5a9090f62bcb8bc468503a42b48febf97234cfb444844670e",
+      "size": [
+        640,
+        220
+      ],
+      "illustrative": true
+    },
+    {
+      "file": "emile.webp",
+      "sha256": "c0b04563f2edfc7469bdce6f35b9dfe2e2c6afe907424e562bcb9bd7307e923a",
+      "size": [
+        640,
+        220
+      ],
+      "illustrative": true
+    },
+    {
+      "file": "hero.webp",
+      "sha256": "eb7eb40a6a08d5b769ab9e92a958e5d54e3ae99440b392952c010b0dac95218b",
+      "size": [
+        1400,
+        438
+      ],
+      "illustrative": true
+    },
+    {
+      "file": "maddy.webp",
+      "sha256": "b53c3c7b1972570feaab3a3af25e57de01343781ecfc85159083de83b7910124",
+      "size": [
+        640,
+        220
+      ],
+      "illustrative": true
+    },
+    {
+      "file": "navimow.webp",
+      "sha256": "888cf09fb0491c1014457b3c4fecb62e85c66c2fb6f31dbc3b90246a22df774c",
+      "size": [
+        600,
+        360
+      ],
+      "illustrative": true
+    },
+    {
+      "file": "parents.webp",
+      "sha256": "2c8222dc65485cf716c25a94dee381c82f96402747e2e002fb453fa5595795b3",
+      "size": [
+        640,
+        220
+      ],
+      "illustrative": true
+    },
+    {
+      "file": "salon.webp",
+      "sha256": "9e0bbaae1166369de72ac8373926963ecfee361a09c0d0c11a2cd7cdd450f3a7",
+      "size": [
+        640,
+        220
+      ],
+      "illustrative": true
+    },
+    {
+      "file": "sami.webp",
+      "sha256": "5b5ac24f64b541d74e2b66f9b794794e16db3181f87c2a2b9e011c4c5aff43e7",
+      "size": [
+        600,
+        320
+      ],
+      "illustrative": true
+    },
+    {
+      "file": "sportage-full.webp",
+      "sha256": "a10c0982f08e9c7528e7ba7363577c0656aa4faa7180049a79f2aea956d51e46",
+      "size": [
+        176,
+        83
+      ],
+      "illustrative": true
+    }
+  ]
+}

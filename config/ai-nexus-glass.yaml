@@ -1,0 +1,21 @@
+AI Nexus Glass:
+  primary-color: '#1f8fff'
+  accent-color: '#0f9d8a'
+  ha-card-border-radius: 22px
+  ha-card-border-width: 1px
+  ha-card-box-shadow: 0 10px 28px rgba(16,52,84,.08)
+  modes:
+    light:
+      primary-background-color: '#e7f1f8'
+      secondary-background-color: '#dceaf4'
+      ha-card-background: rgba(255,255,255,.9)
+      primary-text-color: '#16324a'
+      secondary-text-color: '#3d5870'
+      divider-color: rgba(32,72,104,.16)
+    dark:
+      primary-background-color: '#0e1926'
+      secondary-background-color: '#15283a'
+      ha-card-background: rgba(22,40,58,.94)
+      primary-text-color: '#f2f7fc'
+      secondary-text-color: '#c5d6e6'
+      divider-color: rgba(160,198,224,.24)

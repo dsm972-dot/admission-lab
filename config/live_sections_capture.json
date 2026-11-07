@@ -1,0 +1,648 @@
+{
+  "voiture": {
+    "sections": [
+      {
+        "section": {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Consommation — cycle en cours"
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cycle_km_total",
+              "name": "Distance parcourue",
+              "show_state": true,
+              "state_display": "[[[ return Number(entity.state || 0).toLocaleString('fr-FR', {maximumFractionDigits:1}) + ' km'; ]]]",
+              "icon": "mdi:map-marker-distance",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cycle_km_electrique",
+              "name": "Kilomètres électriques",
+              "show_state": true,
+              "state_display": "[[[ return Number(entity.state || 0).toLocaleString('fr-FR', {maximumFractionDigits:1}) + ' km'; ]]]",
+              "icon": "mdi:car-electric",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cycle_confiance",
+              "name": "Fiabilité du cycle",
+              "show_state": true,
+              "state_display": "[[[ const m = {high:'🟢 Élevée', medium:'🟠 Moyenne', low:'🔴 Faible'}; return m[entity.state] || 'En cours'; ]]]",
+              "icon": "mdi:check-decagram",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cycle_nb_charges",
+              "name": "Recharges du cycle",
+              "show_state": true,
+              "state_display": "[[[ return (entity.state || '0') + ' recharge(s)'; ]]]",
+              "icon": "mdi:ev-station",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "section": {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Dernier cycle complet — coûts"
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Distance du cycle",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  const v = a.total_km;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + ' km';\n]]]",
+              "icon": "mdi:map-marker-distance",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Coût total",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  const v = a.total_cost;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €';\n]]]",
+              "icon": "mdi:cash-multiple",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Coût pour 100 km",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  const v = a.total_eur_100km;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €/100 km';\n]]]",
+              "icon": "mdi:speedometer",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Économies vs 100% essence",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  const v = a.savings_eur;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €';\n]]]",
+              "icon": "mdi:piggy-bank",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "section": {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Dernier cycle — énergie & carburant"
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Part électrique",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  const v = a.ev_pct;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + ' %';\n]]]",
+              "icon": "mdi:battery-charging-80",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Conso électrique",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  const v = a.ev_kwh_100km;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + ' kWh/100 km';\n]]]",
+              "icon": "mdi:car-electric",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Conso essence",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  const v = a.fuel_l_100km;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + ' L/100 km';\n]]]",
+              "icon": "mdi:car",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Coût électricité",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  const v = a.ev_cost;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €';\n]]]",
+              "icon": "mdi:flash",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Coût essence",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  const v = a.fuel_cost;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €';\n]]]",
+              "icon": "mdi:gas-station",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Prix de revient détaillé",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  if (a.total_cost === undefined || a.total_cost === null) return '—';\n  const n = v => Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2});\n  return n(a.total_cost) + ' € · ' + n(a.total_eur_100km) + ' €/100 km';\n]]]",
+              "icon": "mdi:calculator-variant",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "section": {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Comparateur trajet — Orgères ↔ Villetaneuse"
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_trip_cout_100_essence",
+              "name": "Trajet 100% essence",
+              "show_state": true,
+              "state_display": "[[[ return Number(entity.state || 0).toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; ]]]",
+              "icon": "mdi:gas-station",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_trip_cout_100_electrique",
+              "name": "Trajet 100% électrique",
+              "show_state": true,
+              "state_display": "[[[ return Number(entity.state || 0).toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; ]]]",
+              "icon": "mdi:car-electric",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_trip_cout_reel",
+              "name": "Trajet en réalité",
+              "show_state": true,
+              "state_display": "[[[ const p = states['input_number.voiture_trip_pct_elec']?.state; return Number(entity.state || 0).toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' € · ' + Math.round(p || 0) + ' % élec'; ]]]",
+              "icon": "mdi:road-variant",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_trip_economie",
+              "name": "Économie réalisée",
+              "show_state": true,
+              "state_display": "[[[ const p = states['sensor.voiture_trip_economie_2']?.state; return Number(entity.state || 0).toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' € (' + Math.round(p || 0) + ' %)'; ]]]",
+              "icon": "mdi:piggy-bank",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "section": {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Cumul depuis le début du suivi"
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cumul_km",
+              "name": "Distance cumulée",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.cumulative || {};\n  const v = a.total_km;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + ' km';\n]]]",
+              "icon": "mdi:counter",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cumul_km",
+              "name": "Coût cumulé",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.cumulative || {};\n  const v = a.total_cost;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €';\n]]]",
+              "icon": "mdi:cash",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cumul_km",
+              "name": "Coût moyen /100 km",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.cumulative || {};\n  const v = a.total_eur_100km;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €/100 km';\n]]]",
+              "icon": "mdi:chart-line",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cumul_km",
+              "name": "Économies cumulées",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.cumulative || {};\n  const v = a.savings_eur;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €';\n]]]",
+              "icon": "mdi:trending-down",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "section": {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Paramètres du comparateur"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "input_number.voiture_trip_distance",
+                  "name": "Distance du trajet"
+                },
+                {
+                  "entity": "input_number.voiture_trip_pct_elec",
+                  "name": "Part électrique du trajet"
+                },
+                {
+                  "entity": "input_number.voiture_trip_prix_litre",
+                  "name": "Prix du litre"
+                },
+                {
+                  "entity": "input_number.voiture_trip_prix_kwh",
+                  "name": "Prix du kWh"
+                },
+                {
+                  "entity": "input_number.voiture_trip_conso_essence",
+                  "name": "Conso essence"
+                },
+                {
+                  "entity": "input_number.voiture_trip_conso_elec",
+                  "name": "Conso électrique"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "recharge": {
+    "sections": [
+      {
+        "section": {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Recharge — cycle en cours"
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cycle_km_electrique",
+              "name": "Kilomètres électriques",
+              "show_state": true,
+              "state_display": "[[[ return Number(entity.state || 0).toLocaleString('fr-FR', {maximumFractionDigits:1}) + ' km'; ]]]",
+              "icon": "mdi:car-electric",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cycle_kwh",
+              "name": "Énergie rechargée",
+              "show_state": true,
+              "state_display": "[[[ return Number(entity.state || 0).toLocaleString('fr-FR', {maximumFractionDigits:1}) + ' kWh'; ]]]",
+              "icon": "mdi:battery-charging",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cycle_cout_electrique",
+              "name": "Coût électricité",
+              "show_state": true,
+              "state_display": "[[[ return Number(entity.state || 0).toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; ]]]",
+              "icon": "mdi:flash",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cycle_nb_charges",
+              "name": "Recharges du cycle",
+              "show_state": true,
+              "state_display": "[[[ return (entity.state || '0') + ' recharge(s)'; ]]]",
+              "icon": "mdi:ev-station",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "section": {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Dernier cycle complet — électrique"
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Part électrique",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  const v = a.ev_pct;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + ' %';\n]]]",
+              "icon": "mdi:battery-charging-80",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Conso électrique",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  const v = a.ev_kwh_100km;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + ' kWh/100 km';\n]]]",
+              "icon": "mdi:car-electric",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Coût électricité",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  const v = a.ev_cost;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €';\n]]]",
+              "icon": "mdi:flash",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Coût électrique /100 km",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  const v = a.ev_eur_100km;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €/100 km';\n]]]",
+              "icon": "mdi:cash",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_dernier_cycle_km",
+              "name": "Économies vs 100% essence",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.last_completed_cycle || {};\n  const v = a.savings_eur;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €';\n]]]",
+              "icon": "mdi:piggy-bank",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "section": {
+          "type": "grid",
+          "cards": [
+            {
+              "type": "heading",
+              "heading": "Cumul depuis le début"
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cumul_km",
+              "name": "Énergie cumulée",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.cumulative || {};\n  const v = a.ev_kwh;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + ' kWh';\n]]]",
+              "icon": "mdi:battery-charging-100",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cumul_km",
+              "name": "Coût électricité cumulé",
+              "show_state": true,
+              "state_display": "[[[\n  const a = entity.attributes.cumulative || {};\n  const v = a.ev_cost;\n  if (v === undefined || v === null || isNaN(v)) return '—';\n  return Number(v).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €';\n]]]",
+              "icon": "mdi:cash-multiple",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            },
+            {
+              "type": "custom:button-card",
+              "template": "glass",
+              "entity": "sensor.voiture_cumul_km",
+              "name": "Économies cumulées",
+              "show_state": true,
+              "state_display": "[[[ const a = entity.attributes.cumulative; if (!a) return 'N/A'; return Number(a.savings_eur).toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; ]]]",
+              "icon": "mdi:trending-down",
+              "variables": {
+                "sleep": false
+              },
+              "tap_action": {
+                "action": "none"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

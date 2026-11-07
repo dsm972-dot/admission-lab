@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Nexus Home V4</title>
+<style>
+:root {
+  --bg: #e7f1f8;
+  --bg-2: #dceaf4;
+  --card: rgba(255,255,255,.92);
+  --text: #16324a;
+  --muted: #3d5870;
+  --line: rgba(32,72,104,.14);
+  --accent: #1f8fff;
+  --accent-2: #0f9d8a;
+  --warn: #b86a12;
+  --shadow: 0 10px 28px rgba(16,52,84,.08);
+  --rail: 228px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 500px at 10% -10%, #f7fbfe 0%, transparent 55%),
+    linear-gradient(180deg, var(--bg), #d5e6f2 100%);
+  min-height: 100%;
+}
+button, input { font: inherit; color: inherit; }
+ha-icon { width: 22px; height: 22px; display: inline-flex; color: var(--accent); }
+ha-icon svg { width: 100%; height: 100%; }
+.app { display: grid; grid-template-columns: var(--rail) minmax(0,1fr); min-height: 100vh; }
+.rail {
+  position: sticky; top: 0; height: 100vh; padding: 22px 16px 16px;
+  display: flex; flex-direction: column; gap: 6px;
+  background: rgba(255,255,255,.55); border-right: 1px solid var(--line);
+  backdrop-filter: blur(16px);
+}
+.brand { padding: 4px 10px 14px; }
+.brand small { display: block; color: var(--muted); letter-spacing: .14em; font-size: 11px; text-transform: uppercase; }
+.brand strong { font-size: 18px; letter-spacing: -.03em; }
+.route {
+  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+  border: 0; background: transparent; border-radius: 14px; padding: 9px 10px; cursor: pointer;
+}
+.route[aria-current="page"] { background: white; box-shadow: var(--shadow); }
+.route span { font-size: 14px; }
+.journal { margin-top: auto; padding: 12px; border-radius: 16px; background: rgba(255,255,255,.7); border: 1px solid var(--line); }
+.journal h2 { margin: 0 0 8px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.journal li { font-size: 12px; margin: 6px 0; list-style: none; }
+.journal ul { margin: 0; padding: 0; }
+.main { padding: 22px 22px 96px; min-width: 0; }
+.top { display: flex; justify-content: space-between; gap: 16px; align-items: flex-end; margin-bottom: 16px; }
+.top h1 { margin: 0; font-size: 28px; letter-spacing: -.04em; }
+.banner {
+  font-size: 13px; color: var(--muted); background: rgba(255,255,255,.72);
+  border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px;
+}
+.view { display: flex; flex-direction: column; gap: 14px; }
+.grid-section { display: flex; flex-direction: column; gap: 12px; }
+.heading { margin: 8px 2px 0; font-size: 15px; letter-spacing: -.02em; }
+.glass, .tile, .markdown, .legacy, .forecast {
+  background: var(--card); border: 1px solid var(--line); border-radius: 22px;
+  box-shadow: var(--shadow); backdrop-filter: blur(16px);
+}
+.panel { padding: 4px; overflow: hidden; }
+.panel.full { width: 100%; }
+.group { display: grid; gap: 12px; align-items: stretch; }
+.group > * { min-width: 0; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.tile {
+  display: grid; grid-template-columns: 42px minmax(0,1fr) auto; gap: 10px; align-items: center;
+  text-align: left; padding: 14px 14px; min-height: 92px; cursor: pointer; width: 100%;
+}
+.tile .copy { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.tile strong { font-size: 15px; letter-spacing: -.01em; }
+.tile em { font-style: normal; font-size: 13px; font-weight: 650; color: var(--muted); }
+.tile .hint { font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }
+.tile.command { box-shadow: inset 3px 0 0 var(--accent), var(--shadow); }
+.tile.info, .tile.status { cursor: default; box-shadow: none; }
+.tile.info { cursor: pointer; }
+.tile.offline { opacity: .62; border-style: dashed; cursor: not-allowed; box-shadow: none; }
+.tile:active.command { transform: translateY(1px); }
+.mark {
+  width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center;
+  background: rgba(31,143,255,.1);
+}
+.more {
+  width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(22,50,74,.06); font-size: 13px; font-weight: 700;
+}
+.markdown { padding: 16px 18px; line-height: 1.45; font-size: 14px; }
+.markdown p { margin: 0 0 8px; }
+.legacy, .forecast { padding: 16px 18px; }
+.legacy h3, .forecast h3 { margin: 0 0 8px; font-size: 16px; }
+.rows { display: grid; gap: 8px; }
+.row { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+.bottom {
+  display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+  background: rgba(255,255,255,.92); border-top: 1px solid var(--line);
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+  justify-content: space-around; backdrop-filter: blur(16px);
+}
+.bottom button { border: 0; background: transparent; border-radius: 12px; padding: 6px 4px; min-width: 56px; }
+.bottom button[aria-current="page"] { background: white; box-shadow: var(--shadow); }
+.bottom small { display: block; font-size: 10px; }
+dialog { border: 0; border-radius: 22px; padding: 0; width: min(440px, calc(100% - 28px)); box-shadow: 0 24px 60px rgba(16,40,70,.25); }
+dialog::backdrop { background: rgba(14, 28, 44, .35); }
+.sheet { padding: 18px; }
+.sheet h3 { margin: 0 0 8px; }
+.sheet p { margin: 0 0 14px; color: var(--muted); }
+.actions { display: flex; justify-content: flex-end; gap: 8px; }
+.actions button, .ghost {
+  border-radius: 12px; padding: 9px 14px; border: 1px solid var(--line); background: white; cursor: pointer;
+}
+.actions .go { background: var(--accent); color: white; border-color: transparent; }
+.toast {
+  position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px);
+  background: #16324a; color: white; border-radius: 999px; padding: 10px 16px; font-size: 14px;
+  opacity: 0; pointer-events: none; transition: .2s ease; z-index: 8;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+@media (max-width: 860px) {
+  .app { grid-template-columns: 1fr; }
+  .rail { display: none; }
+  .bottom { display: flex; }
+  .main { padding: 16px 12px 108px; }
+  .top { flex-direction: column; align-items: flex-start; }
+  .top h1 { font-size: 24px; }
+  .toast { bottom: 86px; }
+  .group { grid-template-columns: 1fr !important; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="rail" id="rail"></aside>
+  <main class="main">
+    <div class="top">
+      <div>
+        <h1 id="title">Accueil</h1>
+      </div>
+      <div class="banner">Aperçu local — les commandes sont simulées, rien n’est envoyé à la maison.</div>
+    </div>
+    <div class="view" id="view"></div>
+  </main>
+</div>
+<nav class="bottom" id="bottom"></nav>
+<dialog id="confirm"><form class="sheet" method="dialog">
+  <h3>Confirmer</h3>
+  <p id="confirm-text"></p>
+  <div class="actions"><button value="cancel">Annuler</button><button class="go" value="ok">Confirmer</button></div>
+</form></dialog>
+<dialog id="info"><form class="sheet" method="dialog">
+  <h3 id="info-title">Détail</h3>
+  <div id="info-body"></div>
+  <div class="actions"><button class="go" value="ok">Fermer</button></div>
+</form></dialog>
+<div class="toast" id="toast"></div>
+<script>
+const HASS = {user:{name:'Denis'}, config:{time_zone:'Europe/Paris'}};
+const ICONS = {
+  home:'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z',
+  'floor-plan':'M4 4h7v7H4zm9 0h7v7h-7zM4 13h7v7H4zm9 0h7v7h-7z',
+  lightbulb:'M9 21h6v-1H9zm3-19a7 7 0 0 0-4 12c.6.6 1 1.5 1 2h6c0-.5.4-1.4 1-2A7 7 0 0 0 12 2z',
+  thermometer:'M12 2a3 3 0 0 0-3 3v8.1a5 5 0 1 0 6 0V5a3 3 0 0 0-3-3zm0 18a3 3 0 0 1-1.5-5.6L11 13.8V6h2v7.8l.5.6A3 3 0 0 1 12 20z',
+  'shield-home':'M12 2 4 5v6c0 5 3.4 8.4 8 9.5 4.6-1.1 8-4.5 8-9.5V5z',
+  'lightning-bolt':'M11 21h2L13 14h6L10 3h-2l1 7H4z',
+  'dots-horizontal':'M6 10a2 2 0 1 0 .01 4A2 2 0 0 0 6 10zm6 0a2 2 0 1 0 .01 4A2 2 0 0 0 12 10zm6 0a2 2 0 1 0 .01 4A2 2 0 0 0 18 10z',
+  'robot-vacuum':'M12 3a9 9 0 1 0 .01 18A9 9 0 0 0 12 3zm0 4a2 2 0 1 1 0 4 2 2 0 0 1 0-4z',
+  'robot-mower':'M4 16h16v2H4zm2-6h12l2 4H4z',
+  car:'M5 16h14l-1.2-4.2A3 3 0 0 0 14.9 10H9.1a3 3 0 0 0-2.9 1.8zM7 17a1.5 1.5 0 1 0 .01 3A1.5 1.5 0 0 0 7 17zm10 0a1.5 1.5 0 1 0 .01 3A1.5 1.5 0 0 0 17 17z',
+  'play-circle':'M12 2a10 10 0 1 0 .01 20A10 10 0 0 0 12 2zm-2 6 6 4-6 4z',
+  desk:'M3 7h18v2H3zm2 3h4v7H5zm10 0h4v7h-4z',
+  'book-open':'M12 6c-2-1.4-4.5-2-7-2v14c2.5 0 5 .6 7 2 2-1.4 4.5-2 7-2V4c-2.5 0-5 .6-7 2z',
+  flower:'M12 8a2.5 2.5 0 1 0 .01 5A2.5 2.5 0 0 0 12 8zM12 2l1.2 4.2L17 7l-3.2 2.2L15 14l-3-2-3 2 1.2-4.8L7 7l3.8-.8z',
+  'ev-station':'M7 3h6v10h2v3a3 3 0 0 1-6 0V5H7z',
+  coffee:'M4 8h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zm12 1h2a3 3 0 0 1 0 6h-2',
+  stethoscope:'M5 3v6a4 4 0 0 0 8 0V3h-2v6a2 2 0 0 1-4 0V3zm11 8a4 4 0 1 0 0 8 3 3 0 0 1-3-3h2a1 1 0 1 0 1-1 2 2 0 0 0-2 2',
+  sofa:'M4 10a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v2h1v5h-2v2h-2v-2H7v2H5v-2H3v-5h1z',
+  'account-group':'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM3 18c.4-2.4 2.6-4 6-4s5.6 1.6 6 4zm12 .5c.2-1.6 1.2-2.9 2.8-3.6 1.8.2 3.2 1.4 3.7 3.6z',
+  'shield-check':'M12 2 4 5v6c0 5 3.4 8.4 8 9.5 4.6-1.1 8-4.5 8-9.5V5zm-1.2 12.2-2.3-2.3 1.2-1.2 1.1 1.1 2.8-2.8 1.2 1.2z',
+  account:'M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-3.3 0-8 1.7-8 5v1h16v-1c0-3.3-4.7-5-8-5z',
+  flash:'M7 2h8l-2 7h5l-9 13 2-8H6z',
+  'home-lightning-bolt':'M12 3 3 11h2v8h5v-5h4v5h5v-8h2z',
+  counter:'M5 4h14v4H5zm0 6h14v10H5z',
+  'clock-time':'M12 2a10 10 0 1 0 .01 20A10 10 0 0 0 12 2zm1 5v5l4 2-.7 1.3L11 13V7z',
+  'calendar-month':'M5 4h2V2h2v2h6V2h2v2h2v16H5zm2 6h10V8H7z',
+  'solar-power':'M4 14h16l-2 6H6zm2-2 2-6h8l2 6z',
+  'currency-eur':'M16 7a5 5 0 0 0-8 2H6v2h2v2H6v2h2.2A5 5 0 0 0 16 17l-1.6-1.2A3 3 0 0 1 9.5 14H14v-2H9.1a3 3 0 0 1 5.3-1.2z',
+  'car-electric':'M5 16h14l-1.2-4.2A3 3 0 0 0 14.9 10H9.1a3 3 0 0 0-2.9 1.8z',
+  music:'M9 17a3 3 0 1 1-2-2.8V6l10-2v9.2a3 3 0 1 1-2-1V6.5l-6 1.2z',
+  television:'M4 6h16v10H4zm5 12h6v-2H9z',
+  speaker:'M4 8h4l5-4v16l-5-4H4zm12 1v6a4 4 0 0 0 0-6z',
+  'view-grid':'M4 4h7v7H4zm9 0h7v7h-7zM4 13h7v7H4zm9 0h7v7h-7z',
+  devices:'M4 6h10v8H4zm12 2h4v8h-6v-2h2z',
+  wifi:'M12 18a1.5 1.5 0 1 0 .01 3A1.5 1.5 0 0 0 12 18zM7 14a7 7 0 0 1 10 0l-1.4 1.4a5 5 0 0 0-7.2 0zM4 11a11 11 0 0 1 16 0l-1.4 1.4a9 9 0 0 0-13.2 0z',
+  battery:'M7 6h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm1 4h6v6H8z',
+  door:'M6 3h9a2 2 0 0 1 2 2v16H6zm8 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z',
+  lock:'M8 10V8a4 4 0 0 1 8 0v2h1v10H7V10zm2 0h4V8a2 2 0 0 0-4 0z',
+  garage:'M4 20V10l8-6 8 6v10h-2v-6H6v6z',
+  'weather-partly-cloudy':'M7 14a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.2A3.5 3.5 0 1 1 17 14z',
+  'chef-hat':'M8 10a3 3 0 1 1 2.2-5 3 3 0 0 1 5.5 1.2A3 3 0 1 1 16 12H8zm1 2h6v7H9z',
+  'bed-king':'M3 18v-5a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v5h-2v-2H5v2z',
+  bed:'M3 18v-5h10V9H6V7h9a3 3 0 0 1 3 3v8h-2v-2H5v2z',
+  'home-thermometer':'M4 10 12 4l8 6v8H4zm7 2v4h2v-4z',
+  circle:'M12 12m-7 0a7 7 0 1 0 14 0a7 7 0 1 0-14 0'
+};
+class HaIcon extends HTMLElement {
+  static get observedAttributes(){ return ['icon']; }
+  connectedCallback(){ this.render(); }
+  attributeChangedCallback(){ this.render(); }
+  render(){
+    const name=(this.getAttribute('icon')||'').replace(/^mdi:/,'');
+    const d=ICONS[name]||ICONS.circle;
+    this.innerHTML=`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="${d}"/></svg>`;
+  }
+}
+customElements.define('ha-icon', HaIcon);
+
+const LABELS={on:'Allumé',off:'Éteint',home:'À la maison',not_home:'Absent',open:'Ouvert',closed:'Fermé',locked:'Verrouillée',unlocked:'Déverrouillée',heat:'Chauffage',auto:'Auto',cleaning:'Nettoyage',docked:'À la station',mowing:'Tonte',paused:'En pause',idle:'En veille',playing:'Lecture',unavailable:'Hors ligne',unknown:'Inconnu'};
+let dashboard, states, registry, popups, viewPath='accueil', journal=[], sheet=null, gid=0;
+
+function esc(v){ return String(v??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function evalTemplate(raw, entity, variables){
+  if (typeof raw!=='string' || !raw.includes('[[[')) return raw;
+  const depth=raw.length-raw.replace(/^\[+/, '').length;
+  const body=raw.slice(depth, raw.length-depth);
+  return new Function('entity','states','variables','hass', body)(entity||{state:'unknown',attributes:{}}, states, variables||{}, HASS);
+}
+function toast(text){
+  const el=document.getElementById('toast');
+  el.textContent=text; el.classList.add('show');
+  clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove('show'), 2200);
+}
+function pushJournal(text){
+  journal.unshift(text); journal=journal.slice(0,6); renderChrome();
+}
+function entityOf(card){ return states[card.entity]; }
+function labelState(card){
+  const st=entityOf(card);
+  if (!st) return '';
+  if ((card.variables||{}).offline) return 'Hors ligne';
+  if (typeof card.state_display==='string') {
+    try { const v=evalTemplate(card.state_display, st, card.variables); if (typeof v==='string') return v; } catch(e) {}
+  }
+  return LABELS[st.state]||st.state;
+}
+
+function renderChrome(){
+  const routes=dashboard.views.map(v=>({path:v.path,title:v.title,icon:v.icon}));
+  document.getElementById('rail').innerHTML=`<div class="brand"><small>Maison</small><strong>AI Nexus</strong></div>`+
+    routes.map(r=>`<button class="route" data-go="${r.path}" aria-current="${r.path===viewPath?'page':'false'}"><ha-icon icon="${esc(r.icon)}"></ha-icon><span>${esc(r.title)}</span></button>`).join('')+
+    `<div class="journal"><h2>Commandes simulées</h2><ul>${journal.map(j=>`<li>${esc(j)}</li>`).join('')||'<li>Aucune pour l’instant</li>'}</ul></div>`;
+  const mobile=routes.slice(0,5);
+  document.getElementById('bottom').innerHTML=mobile.map(r=>`<button data-go="${r.path}" aria-current="${r.path===viewPath?'page':'false'}"><ha-icon icon="${esc(r.icon)}"></ha-icon><small>${esc(r.title)}</small></button>`).join('')+
+    `<button data-go="plus" aria-current="${viewPath==='plus'?'page':'false'}"><ha-icon icon="mdi:dots-horizontal"></ha-icon><small>Plus</small></button>`;
+  document.getElementById('title').textContent=(dashboard.views.find(v=>v.path===viewPath)||{}).title||'';
+}
+function renderGroup(card){
+  const fields=card.custom_fields||{};
+  const columns=(card.styles&&card.styles.grid||[]).map(r=>r['grid-template-columns']).find(Boolean)||'1fr';
+  const areas=(card.styles&&card.styles.grid||[]).map(r=>r['grid-template-areas']).find(Boolean);
+  const keys=Object.keys(fields);
+  const inner=keys.map(key=>{
+    const value=fields[key];
+    let body='';
+    if (value&&value.card) body=renderCard(value.card);
+    else if (typeof value==='string' && value.includes('[[[')) {
+      try { body=evalTemplate(value)||''; } catch(e) { body='<p>Rendu indisponible</p>'; }
+    } else if (typeof value==='string') body=value;
+    return `<div style="grid-area:${key}">${body}</div>`;
+  }).join('');
+  const style=`grid-template-columns:${columns};${areas?`grid-template-areas:${areas};`:''}`;
+  const id='g'+(gid++);
+  const extra=(card.extra_styles||'').replaceAll('#container','#'+id);
+  return `<div style="container-type:inline-size;width:100%"><style>${extra}</style><div class="group" id="${id}" style='${style.replace(/'/g,'')}'>${inner}</div></div>`;
+}
+function renderTile(card){
+  const idx=registry.length; registry.push(card);
+  const vars=card.variables||{};
+  const kind=vars.offline?'offline':vars.kind==='status'?'status':vars.readonly?'info':(card.tap_action||{}).action==='navigate'?'nav':'command';
+  const name=typeof card.name==='string'?card.name:(entityOf(card)?.attributes?.friendly_name||card.entity||'Carte');
+  const icon=card.icon||'mdi:circle';
+  return `<button type="button" class="tile ${kind}" data-idx="${idx}">
+    <span class="mark"><ha-icon icon="${esc(icon)}"></ha-icon></span>
+    <span class="copy"><strong>${esc(name)}</strong><em>${esc(labelState(card))}</em></span>
+    <span class="hint">${kind==='command'?'Appuyer':kind==='offline'?'Hors ligne':kind==='status'?'Statut':kind==='nav'?'Ouvrir':'Lecture'}</span>
+  </button>`;
+}
+function renderButton(card){
+  const fields=card.custom_fields||{};
+  const nested=Object.values(fields).some(v=>v&&typeof v==='object');
+  if (nested || (Object.values(fields).some(v=>typeof v==='string' && !String(v).includes('[[[')) && !fields.body)) return renderGroup(card);
+  if (typeof fields.body==='string') {
+    let html='';
+    try { html=evalTemplate(fields.body, null, card.variables)||''; }
+    catch(e){ html=`<p class="muted">Rendu indisponible</p>`; }
+    const idx=registry.length; registry.push(card);
+    const full=card.grid_options&&card.grid_options.columns==='full'?' full':'';
+    return `<article class="panel glass${full}" data-idx="${idx}">${html}</article>`;
+  }
+  return renderTile(card);
+}
+function passes(conditions){
+  return (conditions||[]).every(c=>{
+    const st=states[c.entity]; if(!st) return false;
+    if (c.state_not) return st.state!==c.state_not;
+    if (c.state) return st.state===c.state;
+    return true;
+  });
+}
+function renderLegacy(card){
+  if (card.type==='custom:yet-another-media-player') {
+    const rows=(card.entities||[]).map(e=>{
+      const st=states[e.entity_id]||{state:'?'};
+      return `<div class="row"><span>${esc(e.name||e.entity_id)}</span><strong>${esc(LABELS[st.state]||st.state)}</strong></div>`;
+    }).join('');
+    return `<div class="legacy"><h3>Lecteurs</h3><div class="rows">${rows}</div><p class="banner">Le lecteur détaillé s’ouvre dans Home Assistant. Ici, chaque lecteur se commande depuis sa tuile.</p></div>`;
+  }
+  const st=states[card.entity]||{state:'?'};
+  return `<div class="legacy"><h3>Carte Navimow</h3><div class="row"><span>État</span><strong>${esc(LABELS[st.state]||st.state)}</strong></div><p class="banner">La carte de terrain reste celle de l’intégration. Les commandes sont les tuiles au-dessus.</p></div>`;
+}
+function renderCard(card){
+  if (!card || typeof card!=='object') return '';
+  if (card.type==='heading') return `<h2 class="heading">${esc(card.heading||'')}</h2>`;
+  if (card.type==='markdown') return `<div class="markdown">${esc(card.content||'').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').split('\n').map(p=>`<p>${p}</p>`).join('')}</div>`;
+  if (card.type==='custom:navbar-card' || card.type==='custom:bubble-card') return '';
+  if (card.type==='conditional') return passes(card.conditions)?renderCard(card.card):'';
+  if (card.type==='history-graph') {
+    const rows=(card.entities||[]).map(e=>`<div class="row"><span>${esc(e.name||e.entity)}</span><strong>${esc(states[e.entity]?states[e.entity].state:'—')}</strong></div>`).join('');
+    return `<div class="forecast"><h3>${esc(card.title||'Historique')}</h3><div class="rows">${rows}</div></div>`;
+  }
+  if (card.type==='weather-forecast') {
+    const st=states[card.entity]||{state:'—',attributes:{}};
+    return `<div class="forecast"><h3>Prévisions</h3><div class="row"><span>${esc(LABELS[st.state]||st.state)}</span><strong>${esc(st.attributes.temperature??'')}°</strong></div></div>`;
+  }
+  if (card.type==='custom:navimower-map-card' || card.type==='custom:yet-another-media-player') return renderLegacy(card);
+  if (card.type==='grid') {
+    const cards=card.cards||[];
+    const onlyTiles=cards.length>1 && cards.every(c=>c.type==='custom:button-card' && !c.custom_fields);
+    if (onlyTiles) return `<div class="tiles">${cards.map(renderCard).join('')}</div>`;
+    return `<section class="grid-section">${cards.map(renderCard).join('')}</section>`;
+  }
+  if (card.type==='custom:button-card') return renderButton(card);
+  return '';
+}
+function render(){
+  registry=[]; popups={}; gid=0;
+  const view=dashboard.views.find(v=>v.path===viewPath)||dashboard.views[0];
+  for (const node of walk(view)) if (node.type==='custom:bubble-card' && node.hash) popups[node.hash]=node;
+  document.getElementById('view').innerHTML=(view.sections||[]).filter(section=>{
+    const cards=(section.cards||[]).filter(c=>c.type!=='heading');
+    return !(cards.length && cards.every(c=>c.type==='custom:navbar-card'));
+  }).map(section=>{
+    if (section.type==='grid') return renderCard(section);
+    return `<section class="grid-section">${(section.cards||[]).map(renderCard).join('')}</section>`;
+  }).join('');
+  renderChrome();
+}
+function walk(value, out=[]){
+  if (Array.isArray(value)) value.forEach(v=>walk(v,out));
+  else if (value && typeof value==='object') { out.push(value); Object.values(value).forEach(v=>walk(v,out)); }
+  return out;
+}
+function go(path){
+  if (!path) return;
+  if (path.startsWith('#')) { openPopup(path); return; }
+  const name=path.split('#')[0].split('/').filter(Boolean).pop();
+  if (dashboard.views.some(v=>v.path===name)) { viewPath=name; render(); window.scrollTo(0,0); }
+}
+function openPopup(hash){
+  const popup=popups[hash]; if (!popup) return;
+  sheet={type:'popup', hash};
+  const body=(popup.cards||[]).map(renderCard).join('');
+  document.getElementById('info-title').textContent=popup.name||'Pièce';
+  document.getElementById('info-body').innerHTML=`<div class="tiles">${body}</div>`;
+  if (!document.getElementById('info').open) document.getElementById('info').showModal();
+}
+function openInfo(card){
+  const st=entityOf(card)||{};
+  const attrs=st.attributes||{};
+  const rows=[['État', st.state],['Nom', attrs.friendly_name],['Unité', attrs.unit_of_measurement],['Classe', attrs.device_class]]
+    .filter(([,v])=>v!=null && v!=='');
+  sheet={type:'detail'};
+  document.getElementById('info-title').textContent=typeof card.name==='string'?card.name:'Détail';
+  document.getElementById('info-body').innerHTML=`<div class="rows">${rows.map(([k,v])=>`<div class="row"><span>${esc(k)}</span><strong>${esc(v)}</strong></div>`).join('')}</div><p>Dans Home Assistant, le maintien du doigt ouvre cette fiche. Ici elle s’affiche tout de suite.</p>`;
+  if (!document.getElementById('info').open) document.getElementById('info').showModal();
+}
+function applyAction(card){
+  const action=card.tap_action||{};
+  const st=entityOf(card);
+  const service=action.service;
+  const domain=(card.entity||'').split('.')[0];
+  if (!st) { pushJournal(`${card.name||card.entity} · ${service||action.action}`); return; }
+  if (action.action==='toggle') {
+    if (domain==='cover') st.state=st.state==='open'?'closed':'open';
+    else if (domain==='media_player') st.state=st.state==='playing'?'paused':'playing';
+    else st.state=st.state==='on'?'off':'on';
+    pushJournal(`${labelOf(card)} · ${domain}.toggle → ${LABELS[st.state]||st.state}`);
+  } else if (service==='cover.open_cover') { st.state='open'; pushJournal(`${labelOf(card)} · cover.open_cover`); }
+  else if (service==='cover.close_cover') { st.state='closed'; pushJournal(`${labelOf(card)} · cover.close_cover`); }
+  else if (service==='lock.unlock') { st.state='unlocked'; pushJournal(`${labelOf(card)} · lock.unlock`); }
+  else if (service==='lock.lock') { st.state='locked'; pushJournal(`${labelOf(card)} · lock.lock`); }
+  else if (service==='climate.set_hvac_mode') {
+    let mode='heat';
+    try { mode=evalTemplate(action.service_data.hvac_mode, st, card.variables)||mode; } catch(e) {}
+    st.state=mode; pushJournal(`${labelOf(card)} · climate.set_hvac_mode → ${mode}`);
+  } else if (service==='vacuum.start') { st.state='cleaning'; pushJournal('Sami · vacuum.start'); }
+  else if (service==='vacuum.return_to_base') { st.state='returning'; pushJournal('Sami · vacuum.return_to_base'); }
+  else if (service==='vacuum.pause') { st.state='paused'; pushJournal('Sami · vacuum.pause'); }
+  else if (service==='lawn_mower.start_mowing') { st.state='mowing'; pushJournal('Navimow · lawn_mower.start_mowing'); }
+  else if (service==='lawn_mower.pause') { st.state='paused'; pushJournal('Navimow · lawn_mower.pause'); }
+  else if (service==='lawn_mower.dock') { st.state='returning'; pushJournal('Navimow · lawn_mower.dock'); }
+  else if (service==='select.select_next' || service==='input_select.select_next') { pushJournal(`${labelOf(card)} · ${service}`); }
+  else if (service) { pushJournal(`${labelOf(card)} · ${service}`); }
+  else pushJournal(`${labelOf(card)} · ${action.action}`);
+  toast(journal[0]);
+}
+function labelOf(card){ return typeof card.name==='string'?card.name:(card.entity||'Tuile'); }
+async function activate(card, more){
+  const action=card.tap_action||{action:'none'};
+  if (more || action.action==='more-info') { openInfo(card); return; }
+  if (action.action==='none') { toast((card.variables||{}).offline?'Hors ligne — pas de commande':'Statut seulement'); return; }
+  if (action.action==='navigate') { go(action.navigation_path); return; }
+  if (action.confirmation&&action.confirmation.text) {
+    document.getElementById('confirm-text').textContent=action.confirmation.text;
+    const dialog=document.getElementById('confirm');
+    dialog.showModal();
+    const value=await new Promise(resolve=>dialog.addEventListener('close', ()=>resolve(dialog.returnValue), {once:true}));
+    if (value!=='ok') { toast('Commande annulée'); return; }
+  }
+  const reopen=sheet&&sheet.type==='popup'?sheet.hash:null;
+  applyAction(card);
+  render();
+  if (reopen) openPopup(reopen);
+}
+document.body.addEventListener('click', event=>{
+  const goBtn=event.target.closest('[data-go]');
+  if (goBtn) { viewPath=goBtn.dataset.go; render(); return; }
+  const link=event.target.closest('a[href]');
+  if (link && link.getAttribute('href').startsWith('/ai-nexus-v4/')) { event.preventDefault(); go(link.getAttribute('href')); return; }
+  const host=event.target.closest('[data-idx]');
+  if (!host) return;
+  const card=registry[Number(host.dataset.idx)];
+  if (!card) return;
+  if (host.classList.contains('panel')) {
+    const action=card.tap_action||{};
+    if (action.action==='navigate') go(action.navigation_path);
+    return;
+  }
+  activate(card, false);
+});
+
+Promise.all([
+  fetch('/config/ai-nexus-v4.json').then(r=>r.json()),
+  fetch('/data/states.json').then(r=>r.json())
+]).then(([dash, list])=>{
+  dashboard=dash;
+  states=Object.fromEntries(list.map(s=>[s.entity_id,{state:s.state, attributes:s.attributes||{}, entity_id:s.entity_id}]));
+  const params=new URLSearchParams(location.search);
+  if (params.get('vue')) viewPath=params.get('vue');
+  render();
+}).catch(err=>{
+  document.getElementById('view').innerHTML=`<div class="markdown">Impossible de charger le dashboard (${esc(err.message)}).</div>`;
+});
+</script>
+</body>
+</html>

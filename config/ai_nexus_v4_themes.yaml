@@ -1,0 +1,41 @@
+# AI Nexus V4 Themes for Home Assistant Frontend
+AI_NEXUS_V4_GLOSSARY_DASHBOARD:
+  icon: ic-dashboard_outlined
+  title: "Dashboard Domotique AI Nexus V4"
+  description: Vue complète du dashboard domotique avec glassmorphism UI
+  
+AI_NEXUS_V4_REGISTRATION:
+  icon: ic-dashboard_outlined
+  title: "Dashboard Domotique AI Nexus V4"
+  ui_type: glassmorphism
+
+# View Definitions with Colons
+AI_NEXUS_V4_DASHBOARDS_MAIN:
+  icon: ic-dashboard_outlined
+  title: "AI Nexus Dashboard Principal"
+  description: Vue complète dashboard domotique
+  
+AI_NEXUS_V4_PHEV_RECHARGE:
+  icon: ic-outlet_outline
+  title: "PHEV - Recharge Electrique"
+  visible_media: [battery, weather]
+
+AI_NEXUS_V4_CANARIES:
+  icon: ic-app_automation_outlined
+  title: "Canaries App/Au/Campus"
+  visible_media: [apps, home_access, campaigns]
+
+AI_NEXUS_V4_HISTORY_AI:
+  icon: ic_analytics_outlined
+  title: "Historique & IA"
+  visible_media: [charts, predictions]
+
+AI_NEXUS_V4_ALERTS_SECURITY:
+  icon: ic_security_outlined
+  title: "Alarmes - Security"
+  visible_media: [security_alerts]
+
+AI_NEXUS_V4_SERVICES_THERMAL:
+  icon: ic_temperature_outlined
+  title: "Services Temperatures"
+  visible_media: [stations, outdoor_temp]
